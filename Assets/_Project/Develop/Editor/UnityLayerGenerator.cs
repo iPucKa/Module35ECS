@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Editor
@@ -19,21 +20,32 @@ namespace Assets._Project.Develop.Editor
 			sb.AppendLine($"public static class UnityLayers");
 			sb.AppendLine("{");
 
-			// Генерация свойств для каждого слоя
-			for (int i = 0; i < 32; i++)
-			{
-				string fullComponentName = typeof(LayerMask).FullName;
-				string componentName = typeof(LayerMask).Name;
-				string layerName = LayerMask.LayerToName(i);
 
-				if (!string.IsNullOrEmpty(layerName))
-				{
-					//sb.AppendLine($"\tpublic static readonly int Layer{layerName.Replace(" ", "")} = LayerMask.NameToLayer(\"{layerName}\");");
-					sb.AppendLine($"\tpublic static readonly int Layer{GetLayerName(layerName)} = {fullComponentName}.NameToLayer(\"{layerName}\");");
-					//sb.AppendLine($"\tpublic static readonly int LayerMask{layerName.Replace(" ", "")} = 1 << Layer{layerName.Replace(" ", "")};");
-					sb.AppendLine($"\tpublic static readonly int {componentName}{GetLayerName(layerName)} = 1 << Layer{GetLayerName(layerName)};");
-					sb.AppendLine();
-				}
+			// Генерация свойств для каждого слоя
+			//for (int i = 0; i < 32; i++)
+			//{
+			//	string fullComponentName = typeof(LayerMask).FullName;
+			//	string componentName = typeof(LayerMask).Name;
+			//	string layerName = LayerMask.LayerToName(i);
+
+			//	if (!string.IsNullOrEmpty(layerName))
+			//	{
+			//		sb.AppendLine($"\tpublic static readonly int Layer{GetLayerName(layerName)} = {fullComponentName}.NameToLayer(\"{layerName}\");");
+			//		sb.AppendLine($"\tpublic static readonly int {componentName}{GetLayerName(layerName)} = 1 << Layer{GetLayerName(layerName)};");
+			//		sb.AppendLine();
+			//	}
+			//}
+
+			string[] layerNames = InternalEditorUtility.layers;
+
+			string fullComponentName = typeof(LayerMask).FullName;
+			string componentName = typeof(LayerMask).Name;
+
+			foreach (string layerName in layerNames)
+			{
+				sb.AppendLine($"\tpublic static readonly int Layer{GetLayerName(layerName)} = {fullComponentName}.NameToLayer(\"{layerName}\");");
+				sb.AppendLine($"\tpublic static readonly int {componentName}{GetLayerName(layerName)} = 1 << Layer{GetLayerName(layerName)};");
+				sb.AppendLine();
 			}
 
 			sb.AppendLine("}");
@@ -44,9 +56,6 @@ namespace Assets._Project.Develop.Editor
 			AssetDatabase.SaveAssets();
 		}
 
-		private static string GetLayerName(string layerName)
-		{
-			return layerName.Replace(" ", "");
-		}
+		private static string GetLayerName(string layerName) => layerName.Replace(" ", "");		
 	}
 }

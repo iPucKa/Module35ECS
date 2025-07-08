@@ -44,6 +44,20 @@ namespace Assets._Project.Develop.Runtime.GameplayMechanics.EntitiesCore
 		return AddComponent(new Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFeature.RotationSpeed() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFeature.RotationDirection RotationDirectionC => GetComponent<Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFeature.RotationDirection>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> RotationDirection => RotationDirectionC.Value;
+
+		public Assets._Project.Develop.Runtime.GameplayMechanics.EntitiesCore.Entity AddRotationDirection()
+		{
+		return AddComponent(new Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFeature.RotationDirection() {Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.GameplayMechanics.EntitiesCore.Entity AddRotationDirection(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> value)
+		{
+		return AddComponent(new Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFeature.RotationDirection() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.GameplayMechanics.Common.RigidbodyComponent RigidbodyC => GetComponent<Assets._Project.Develop.Runtime.GameplayMechanics.Common.RigidbodyComponent>();
 
 		public UnityEngine.Rigidbody Rigidbody => RigidbodyC.Value;

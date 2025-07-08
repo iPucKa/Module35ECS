@@ -36,7 +36,10 @@ namespace Assets._Project.Develop.Runtime.GameplayMechanics
 			Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
 			_entityRB.MoveDirection.Value = input;
+			_entityRB.RotationDirection.Value = input;
+
 			_entityCC.MoveDirection.Value = input;
+			_entityCC.RotationDirection.Value = input;
 		}
 	}
 }
