@@ -34,7 +34,8 @@ namespace Assets._Project.Develop.Runtime.GameplayMechanics.Features.MovementFea
 			Quaternion lookRotation = Quaternion.LookRotation(direction);
 			float step = _rotationSpeed.Value * deltaTime;
 
-			_rigidbody.transform.rotation = Quaternion.RotateTowards(_rigidbody.transform.rotation, lookRotation, step);
+			Quaternion rotation = Quaternion.RotateTowards(_rigidbody.rotation, lookRotation, step);
+			_rigidbody.MoveRotation(rotation);
 		}
 	}
 }
